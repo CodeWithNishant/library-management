@@ -59,6 +59,16 @@ router.post("/issue/:bookId", async (req, res) => {
   }
 });
 
+// Get Issued Books
+router.get("/books/issued", async (req, res) => {
+  try {
+    const issuedBooks = await IssuedBook.find(); // Fetch issued books from DB
+    res.json(issuedBooks);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // Return Book
 router.post("/return/:bookId", async (req, res) => {
   try {

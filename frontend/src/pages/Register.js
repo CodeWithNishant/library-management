@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "../styles.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -24,28 +25,33 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
+    <div className="container">
+      <h2 className="title">Register</h2>
+      <form className="form" onSubmit={handleRegister}>
         <input
+          className="input"
           type="text"
           placeholder="Name"
           onChange={(e) => setName(e.target.value)}
           required
         />
         <input
+          className="input"
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input
+          className="input"
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Register</button>
+        <button className="button" type="submit">
+          Register
+        </button>
       </form>
     </div>
   );

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "../styles.css"; // Importing the CSS file
 
 const Books = () => {
   const [books, setBooks] = useState([]);
-  const userId = localStorage.getItem("userId"); // Assuming userId is stored after login
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -27,17 +28,24 @@ const Books = () => {
   };
 
   return (
-    <div>
-      <h2>Library Books</h2>
-      <ul>
+    <div className="books-container">
+      <h2 className="books-title">Library Books</h2>
+      <ul className="books-list">
         {books.map((book) => (
-          <li key={book._id}>
-            {book.title} by {book.author} (Available: {book.availableCopies})
+          <li key={book._id} className="book-card">
+            <div className="book-info">
+              <h3>{book.title}</h3>
+              <p>by {book.author}</p>
+              <p className="availability">
+                Available: <span>{book.availableCopies}</span>
+              </p>
+            </div>
             <button
+              className="issue-button"
               onClick={() => handleIssue(book._id)}
               disabled={book.availableCopies <= 0}
             >
-              Issue Book
+              {book.availableCopies > 0 ? "Issue Book" : "Out of Stock"}
             </button>
           </li>
         ))}
