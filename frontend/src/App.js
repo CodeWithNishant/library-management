@@ -5,6 +5,7 @@ import Books from "./pages/Books";
 import ReturnBook from "./pages/ReturnBook";
 import AdminDashboard from "./pages/AdminDashboard";
 import { Navigate } from "react-router-dom";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   // Retrieve isAdmin flag from localStorage (or session storage)
@@ -12,6 +13,7 @@ const App = () => {
 
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
