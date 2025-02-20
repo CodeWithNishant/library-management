@@ -60,39 +60,41 @@ router.post("/issue/:bookId", async (req, res) => {
 });
 
 // Get Issued Books
-router.get("/books/issued", async (req, res) => {
+router.get("/issued/:userId", async (req, res) => {
   try {
-    const issuedBooks = await IssuedBook.find(); // Fetch issued books from DB
+    const { userId } = req.params;
+    const issuedBooks = await Book.find({ isIssued: true, issuedTo: userId });
+
     res.json(issuedBooks);
+    console.log(issuedBooks + "loaded");
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// Return Book
-router.post("/return/:bookId", async (req, res) => {
+router.post("/return", async (req, res) => {
   try {
-    const book = await Book.findById(req.params.bookId);
+    const { bookId } = req.body;
+    const book = await Book.findById(bookId);
+
+    console.log(book);
+
     if (!book || !book.isIssued) {
       return res.status(400).json({ message: "Book was not issued" });
     }
-
     const today = new Date();
     let fine = 0;
-
     if (today > book.returnDate) {
       const overdueDays = Math.ceil(
         (today - book.returnDate) / (1000 * 60 * 60 * 24)
       ); // Convert ms to days
       fine = overdueDays * 5; // ₹5 per overdue day
     }
-
     book.isIssued = false;
     book.issuedTo = null;
     book.issueDate = null;
     book.returnDate = null;
     book.fine = fine;
-
     await book.save();
     res.status(200).json({ message: "Book returned successfully", fine });
   } catch (error) {

@@ -8,7 +8,7 @@ const ReturnBook = () => {
   useEffect(() => {
     const fetchIssuedBooks = async () => {
       const res = await axios.get(
-        `http://localhost:5000/api/user/${userId}/issued-books`
+        `http://localhost:5000/api/books/issued/${userId}`
       );
       setIssuedBooks(res.data);
     };
@@ -21,7 +21,7 @@ const ReturnBook = () => {
         "http://localhost:5000/api/books/return",
         { userId, bookId }
       );
-      const fineAmount = response.data.fineAmount;
+      const fineAmount = response.data.fine;
 
       if (fineAmount > 0) {
         alert(
@@ -54,17 +54,17 @@ const ReturnBook = () => {
       <h2> Return Issued Books</h2>
       <ul>
         {issuedBooks.map((book) => (
-          <li key={book.bookId}>
+          <li key={book._id}>
             {book.title} by {book.author} <br />
-            {book.fineAmount > 0 ? (
+            {book.fine > 0 ? (
               <>
-                <p style={{ color: "red" }}>Fine: ₹{book.fineAmount}</p>
-                <button onClick={() => handlePayFine(book.bookId)}>
+                <p style={{ color: "red" }}>Fine: ₹{book.fine}</p>
+                <button onClick={() => handlePayFine(book._id)}>
                   Pay Fine
                 </button>
               </>
             ) : (
-              <button onClick={() => handleReturn(book.bookId)}>
+              <button onClick={() => handleReturn(book._id)}>
                 Return Book
               </button>
             )}

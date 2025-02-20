@@ -8,7 +8,7 @@ const Books = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const res = await axios.get("http://localhost:5000/api/books");
+      const res = await axios.get(`http://localhost:5000/api/books`);
       setBooks(res.data);
     };
     fetchBooks();
@@ -16,7 +16,7 @@ const Books = () => {
 
   const handleIssue = async (bookId) => {
     try {
-      await axios.post("http://localhost:5000/api/books/issue", {
+      await axios.post(`http://localhost:5000/api/books/issue/${bookId}`, {
         userId,
         bookId,
       });
@@ -36,16 +36,13 @@ const Books = () => {
             <div className="book-info">
               <h3>{book.title}</h3>
               <p>by {book.author}</p>
-              <p className="availability">
-                Available: <span>{book.availableCopies}</span>
-              </p>
+              <p className="availability"></p>
             </div>
             <button
               className="issue-button"
               onClick={() => handleIssue(book._id)}
-              disabled={book.availableCopies <= 0}
             >
-              {book.availableCopies > 0 ? "Issue Book" : "Out of Stock"}
+              Issue Book
             </button>
           </li>
         ))}
