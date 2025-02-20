@@ -50,21 +50,30 @@ const ReturnBook = () => {
   };
 
   return (
-    <div>
-      <h2> Return Issued Books</h2>
-      <ul>
+    <div style={styles.container}>
+      <h2 style={styles.heading}>Return Issued Books</h2>
+      <ul style={styles.bookList}>
         {issuedBooks.map((book) => (
-          <li key={book._id}>
-            {book.title} by {book.author} <br />
+          <li key={book._id} style={styles.bookItem}>
+            <div style={styles.bookDetails}>
+              <strong>{book.title}</strong> <br />
+              <span style={styles.author}>by {book.author}</span>
+            </div>
             {book.fine > 0 ? (
-              <>
-                <p style={{ color: "red" }}>Fine: ₹{book.fine}</p>
-                <button onClick={() => handlePayFine(book._id)}>
+              <div style={styles.fineSection}>
+                <p style={styles.fineText}>Fine: ₹{book.fine}</p>
+                <button
+                  style={styles.fineButton}
+                  onClick={() => handlePayFine(book._id)}
+                >
                   Pay Fine
                 </button>
-              </>
+              </div>
             ) : (
-              <button onClick={() => handleReturn(book._id)}>
+              <button
+                style={styles.returnButton}
+                onClick={() => handleReturn(book._id)}
+              >
                 Return Book
               </button>
             )}
@@ -73,6 +82,70 @@ const ReturnBook = () => {
       </ul>
     </div>
   );
+};
+
+// Inline styles for better UI
+const styles = {
+  container: {
+    maxWidth: "600px",
+    marginTop: "50px",
+    margin: "auto",
+    padding: "20px",
+    borderRadius: "10px",
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
+  },
+  heading: {
+    fontSize: "24px",
+    color: "#333",
+    marginBottom: "20px",
+  },
+  bookList: {
+    listStyle: "none",
+    padding: 0,
+  },
+  bookItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "15px",
+    marginBottom: "10px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.1)",
+  },
+  bookDetails: {
+    textAlign: "left",
+  },
+  author: {
+    color: "#666",
+    fontSize: "14px",
+  },
+  fineSection: {
+    textAlign: "right",
+  },
+  fineText: {
+    color: "red",
+    fontWeight: "bold",
+    marginBottom: "5px",
+  },
+  fineButton: {
+    backgroundColor: "#ff5e5e",
+    color: "#fff",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  returnButton: {
+    backgroundColor: "#4caf50",
+    color: "#fff",
+    border: "none",
+    padding: "8px 12px",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
 };
 
 export default ReturnBook;
