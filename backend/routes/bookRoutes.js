@@ -5,10 +5,21 @@ const router = express.Router();
 // Add Book
 router.post("/add", async (req, res) => {
   try {
-    const newBook = new Book(req.body);
+    const { title, author, category } = req.body;
+
+    // Check for missing fields
+    if (!title || !author || !category) {
+      return res
+        .status(400)
+        .json({ error: "Title, author, and category are required" });
+    }
+
+    const newBook = new Book({ title, author, category });
     await newBook.save();
-    res.status(201).json({ message: "Book added successfully" });
+
+    res.status(201).json({ message: "Book added successfully", book: newBook });
   } catch (err) {
+    console.error("Error adding book:", err);
     res.status(500).json({ error: err.message });
   }
 });

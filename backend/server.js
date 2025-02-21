@@ -13,6 +13,7 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // Routes
 app.use("/api/auth", require("./routes/authRoutes.js"));
 app.use("/api/books", require("./routes/bookRoutes.js"));
+app.use("/api/users", require("./routes/userRoutes.js"));
 
 // MongoDB Connection password = 3LAiHRwImYD8vrdC
 mongoose

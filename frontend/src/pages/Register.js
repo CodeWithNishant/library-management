@@ -7,16 +7,22 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
         name,
         email,
         password,
+        isAdmin, // Send isAdmin to the backend
       });
+
+      // Store isAdmin status in localStorage
+      localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+
       alert("Registration successful!");
       navigate("/login");
     } catch (err) {
@@ -49,6 +55,14 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={isAdmin}
+            onChange={(e) => setIsAdmin(e.target.checked)}
+          />
+          Register as Admin
+        </label>
         <button className="button" type="submit">
           Register
         </button>
